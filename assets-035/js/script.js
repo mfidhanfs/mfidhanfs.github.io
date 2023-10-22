@@ -1,42 +1,37 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
-    form.addEventListener("submit", function (event) {
-        event.preventDefault(); // Menghentikan pengiriman formulir awal
+document.getElementById('contactForm').addEventListener('submit', function (event) {
+            var formValid = true;
 
-        // Validasi
-        const name = form.querySelector('input[type="text"]').value;
-        const email = form.querySelector('input[type="email"]').value;
-        email = email.toLowerCase();
-        const subject = form.querySelector('input[type="text"]:last-child').value;
-        const message = form.querySelector('textarea').value;
+            var name = this.elements['name'];
+            var email = this.elements['email'];
+            var subject = this.elements['subject'];
+            var message = this.elements['message'];
 
-        if (!name || !email || !subject || !message) {
-            alert("Harap isi semua kolom.");
-            return;
+            if (!name.value.trim()) {
+                formValid = false;
+                alert('Please enter your name');
+            }
+
+            if (!email.value.trim() || !validateEmail(email.value)) {
+                formValid = false;
+                alert('Please enter a valid email address');
+            }
+
+            if (!subject.value.trim()) {
+                formValid = false;
+                alert('Please enter the subject');
+            }
+
+            if (!message.value.trim()) {
+                formValid = false;
+                alert('Please enter your message');
+            }
+
+            if (!formValid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+
+        function validateEmail(email) {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
         }
-
-        if (!validateName(name)) {
-            alert("Nama harus berisi huruf dan tidak boleh mengandung angka atau karakter khusus.");
-            return;
-        }
-
-        if (!validateEmail(email)) {
-            alert("Alamat email tidak valid.");
-            return;
-        }
-
-        // Jika semua validasi berhasil, Anda dapat melakukan pengiriman formulir ke server di sini
-        alert("Formulir telah berhasil dikirim!");
-        form.reset(); // Menghapus isi formulir setelah pengiriman berhasil
-    });
-
-    function validateEmail(email) {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
-    }
-
-    function validateName(name) {
-        const regex = /^[a-zA-Z\s]+$/; // Hanya huruf dan spasi diizinkan
-        return regex.test(name);
-    }
-});
