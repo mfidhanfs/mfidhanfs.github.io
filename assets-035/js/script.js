@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Validasi
         const name = form.querySelector('input[type="text"]').value;
         const email = form.querySelector('input[type="email"]').value;
+        email = email.toLowerCase();
         const subject = form.querySelector('input[type="text"]:last-child').value;
         const message = form.querySelector('textarea').value;
 
